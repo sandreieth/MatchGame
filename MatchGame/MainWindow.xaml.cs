@@ -49,38 +49,61 @@ namespace MatchGame
 
         private void SetUpGame()
         {
-            List<string> animalEmoji = new List<string>()
+            //List<string> animalEmoji = new List<string>()
+            //{
+            //    "A", "A",
+            //    "B", "B",
+            //    "C", "C",
+            //    "D", "D",
+            //    "E", "E",
+            //    "F", "F",
+            //    "G", "G",
+            //    "H", "H",
+            //};
+
+            //Random random = new Random();
+
+            //foreach (TextBlock textBlock in mainGrid.Children.OfType<TextBlock>())
+            //{
+            //    if (textBlock.Name == "timeTextBlock")
+            //    {
+            //        continue;
+            //    }
+            //    int index = random.Next(animalEmoji.Count);
+            //    string nextEmoji = animalEmoji[index];
+            //    textBlock.Text = nextEmoji;
+            //    animalEmoji.RemoveAt(index);
+            //}
+
+            List<ImageSource> images = new List<ImageSource>()
             {
-                "A", "A",
-                "B", "B",
-                "C", "C",
-                "D", "D",
-                "E", "E",
-                "F", "F",
-                "G", "G",
-                "H", "H",
+                new BitmapImage(new Uri("../../Assets/c-original.png", UriKind.Relative)), new BitmapImage(new Uri("../../Assets/cplusplus-original.png", UriKind.Relative)),
+                new BitmapImage(new Uri("../../Assets/c-original.png", UriKind.Relative)), new BitmapImage(new Uri("../../Assets/cplusplus-original.png", UriKind.Relative)),
+                new BitmapImage(new Uri("../../Assets/csharp-original.png", UriKind.Relative)), new BitmapImage(new Uri("../../Assets/go-original.png", UriKind.Relative)),
+                new BitmapImage(new Uri("../../Assets/csharp-original.png", UriKind.Relative)), new BitmapImage(new Uri("../../Assets/go-original.png", UriKind.Relative)),
+                new BitmapImage(new Uri("../../Assets/python-original.png", UriKind.Relative)), new BitmapImage(new Uri("../../Assets/java-original.png", UriKind.Relative)),
+                new BitmapImage(new Uri("../../Assets/python-original.png", UriKind.Relative)), new BitmapImage(new Uri("../../Assets/java-original.png", UriKind.Relative)),
+                new BitmapImage(new Uri("../../Assets/ruby-original.png", UriKind.Relative)), new BitmapImage(new Uri("../../Assets/rust-original.png", UriKind.Relative)),
+                new BitmapImage(new Uri("../../Assets/ruby-original.png", UriKind.Relative)), new BitmapImage(new Uri("../../Assets/rust-original.png", UriKind.Relative)),
             };
 
             Random random = new Random();
 
-            foreach (TextBlock textBlock in mainGrid.Children.OfType<TextBlock>())
+            foreach (Image image in mainGrid.Children.OfType<Image>())
             {
-                if (textBlock.Name == "timeTextBlock")
-                {
-                    continue;
-                }
-                int index = random.Next(animalEmoji.Count);
-                string nextEmoji = animalEmoji[index];
-                textBlock.Text = nextEmoji;
-                animalEmoji.RemoveAt(index);
+                int index = random.Next(images.Count);
+                ImageSource nextImage = images[index];
+                image.Source = images[index];
+                images.RemoveAt(index);
             }
         }
 
-        TextBlock lastTextBlockClicked;
+        //TextBlock lastTextBlockClicked;
+        Image lastImageClicked;
         bool findingMatch = false;
         bool invoked = false;
 
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!invoked)
             {
@@ -90,26 +113,57 @@ namespace MatchGame
             }
             invoked = true;
 
-            TextBlock textBlock = sender as TextBlock;
+            Image image = sender as Image;
 
             if (findingMatch == false)
             {
-                textBlock.Visibility = Visibility.Hidden;
-                lastTextBlockClicked = textBlock;
+                image.Visibility = Visibility.Hidden;
+                lastImageClicked = image;
                 findingMatch = true;
             }
-            else if (textBlock.Text == lastTextBlockClicked.Text)
+            else if ((image.Source as BitmapImage).UriSource == (lastImageClicked.Source as BitmapImage).UriSource)
             {
-                textBlock.Visibility = Visibility.Hidden;
+                image.Visibility = Visibility.Hidden;
                 findingMatch = false;
                 matchesFound++;
             }
             else
             {
-                lastTextBlockClicked.Visibility = Visibility.Visible;
+                lastImageClicked.Visibility = Visibility.Visible;
                 findingMatch = false;
             }
         }
+
+        //private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (!invoked)
+        //    {
+        //        timer.Start();
+        //        tenthsOfSecondsElapsed = 0;
+        //        matchesFound = 0;
+        //    }
+        //    invoked = true;
+
+        //    TextBlock textBlock = sender as TextBlock;
+
+        //    if (findingMatch == false)
+        //    {
+        //        textBlock.Visibility = Visibility.Hidden;
+        //        lastTextBlockClicked = textBlock;
+        //        findingMatch = true;
+        //    }
+        //    else if (textBlock.Text == lastTextBlockClicked.Text)
+        //    {
+        //        textBlock.Visibility = Visibility.Hidden;
+        //        findingMatch = false;
+        //        matchesFound++;
+        //    }
+        //    else
+        //    {
+        //        lastTextBlockClicked.Visibility = Visibility.Visible;
+        //        findingMatch = false;
+        //    }
+        //}
 
         private void timeTextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -126,13 +180,14 @@ namespace MatchGame
             TextBlock timeTextBlock = mainGrid.FindName("timeTextBlock") as TextBlock;
             timeTextBlock.Text = "0.0s";
 
-            foreach (TextBlock textBlock in mainGrid.Children.OfType<TextBlock>())
+            foreach (Image image in mainGrid.Children.OfType<Image>())
             {
-                textBlock.Visibility = Visibility.Visible;
+                image.Visibility = Visibility.Visible;
             }
             SetUpGame();
 
-            lastTextBlockClicked = null;
+            //lastTextBlockClicked = null;
+            lastImageClicked = null;
             invoked = false;
         }
     }

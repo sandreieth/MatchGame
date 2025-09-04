@@ -94,5 +94,18 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\c-original.png" />
+    <Resource Include="Assets\cplusplus-original.png" />
+    <Resource Include="Assets\csharp-original.png" />
+    <Resource Include="Assets\go-original.png" />
+    <Resource Include="Assets\java-original.png" />
+    <Resource Include="Assets\python-original.png" />
+    <Resource Include="Assets\ruby-original.png" />
+    <Resource Include="Assets\rust-original.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="c-original.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
